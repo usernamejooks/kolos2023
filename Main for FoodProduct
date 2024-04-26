@@ -1,0 +1,31 @@
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Main {
+    public static void main(String[] args) {
+        // Ścieżka do pliku CSV z danymi produktu food
+        Path foodFilePath = Paths.get("/home/piotrek/IdeaProjects/Kolokwium1_2022/data/food/cebula.csv");
+
+        // Tworzenie obiektu FoodProduct z pliku CSV
+        FoodProduct foodProduct = FoodProduct.fromCsv(foodFilePath);
+
+        // Wydrukuj nazwę produktu
+        System.out.println("Nazwa produktu: " + foodProduct.getName());
+
+        // Testowanie działania metody getPrice dla średniej ceny
+        try {
+            double averagePrice = foodProduct.getPrice(2011, 6);
+            System.out.println("Średnia cena produktu w czerwcu 2011 roku: " + averagePrice);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Błąd: " + e.getMessage());
+        }
+
+        // Testowanie działania metody getPrice dla konkretnego województwa
+        try {
+            double priceInProvince = foodProduct.getPrice(2011, 6, "MAZOWIECKIE");
+            System.out.println("Cena produktu w czerwcu 2011 roku w województwie Mazowieckim: " + priceInProvince);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Błąd: " + e.getMessage());
+        }
+    }
+}
