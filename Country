@@ -1,0 +1,40 @@
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public abstract class Country{
+
+    private final String name;
+
+    public Country(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
+    static private Path pathToDeaths;
+    static private Path pathToCases;
+
+    static void setFiles(Path pathToDeaths,Path pathToCases) throws FileNotFoundException {
+        pathToDeaths= Paths.get("deaths.csv");
+        pathToCases = Paths.get("confirmed_cases.csv");
+        if(Files.notExists(pathToDeaths)){
+            throw new FileNotFoundException("Nie znaleziono deaths" + pathToDeaths);
+        }
+        if(Files.notExists(pathToCases)){
+            throw new FileNotFoundException("Nie znaleziono cases" + pathToDeaths);
+        }
+        Country.pathToDeaths=pathToDeaths;
+        Country.pathToCases=pathToCases;
+    }
+    public static Country fromCsv(String countryName) throws IOException {
+        // Otwórz pliki CSV i czytaj dane
+        try (BufferedReader deathsReader = new BufferedReader(new FileReader(pathToDeaths.toFile()));
+             BufferedReader casesReader = new BufferedReader(new FileReader(pathToCases.toFile()))) {
+
+            // Tutaj można przetwarzać dane z plików CSV i utworzyć odpowiedni obiekt Country
+            // Na potrzeby tego przykładu zwróć instancję klasy CountryWithoutProvinces
+            return new CountryWithoutProvinces(countryName);
+        }
+}
