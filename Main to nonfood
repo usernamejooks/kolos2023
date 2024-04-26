@@ -1,0 +1,20 @@
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Main {
+    public static void main(String[] args) {
+        // Ścieżka do pliku CSV z danymi produktu non-food
+        Path nonFoodFilePath = Paths.get("ścieżka/do/pliku/nonfood.csv");
+
+        // Tworzenie obiektu NonFoodProduct z pliku CSV
+        NonFoodProduct nonFoodProduct = NonFoodProduct.fromCsv(nonFoodFilePath);
+
+        // Testowanie działania metody getPrice
+        try {
+            double price = nonFoodProduct.getPrice(2021, 6);
+            System.out.println("Cena produktu w czerwcu 2021 roku: " + price);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Błąd: " + e.getMessage());
+        }
+    }
+}
